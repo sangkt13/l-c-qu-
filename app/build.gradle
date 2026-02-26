@@ -1,0 +1,49 @@
+plugins {
+  id 'com.android.application'
+}
+
+android {
+  namespace "io.github.sangkt13.twa"
+  compileSdk 34
+
+  defaultConfig {
+    applicationId "io.github.sangkt13.twa"
+    minSdk 21
+    targetSdk 34
+
+    // ✅ Play Console bắt buộc tăng versionCode mỗi lần upload
+    versionCode 2
+    versionName "1.0.1"
+  }
+
+  signingConfigs {
+    release {
+      // ✅ keystore sẽ được GH Actions tạo ra trong build/app/keystore.jks
+      storeFile file("keystore.jks")
+      storePassword System.getenv("KEYSTORE_PASSWORD")
+      keyAlias System.getenv("KEY_ALIAS")
+      keyPassword System.getenv("KEY_PASSWORD")
+    }
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      shrinkResources false
+      signingConfig signingConfigs.release
+    }
+    debug {
+      // không cần ký debug
+    }
+  }
+
+  bundle {
+    language {
+      enableSplit = false
+    }
+  }
+}
+
+dependencies {
+  // nếu app TWA của bạn cần gì thêm thì để, không thì trống cũng được
+}
