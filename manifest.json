@@ -1,23 +1,16 @@
 {
   "name": "Gieo Quẻ Tài Lộc",
-  "short_name": "Gieo Quẻ Tài Lộc",
-  "start_url": "index.html",
+  "short_name": "Gieo Quẻ",
+  "description": "Gieo quẻ tài lộc, cầu may mỗi ngày.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#B71C1C",
   "theme_color": "#D32F2F",
-  "description": "Ứng dụng xin xăm mô phỏng ống trúc thực tế, tích hợp cảm biến rung lắc (Accelerometer) và hiệu ứng vật lý sinh động. Thiết kế Material Design với độ tương phản cao.",
+  "lang": "vi",
   "icons": [
-    {
-      "src": "assets/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
