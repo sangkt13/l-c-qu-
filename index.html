@@ -2,66 +2,29 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Gieo Quẻ Tài Lộc</title>
 
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#D32F2F" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#D32F2F">
+  <meta name="description" content="Gieo quẻ tài lộc, cầu may mỗi ngày.">
+
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" href="icons/icon-192.png">
 
   <style>
-    body{
-      margin:0;
-      padding: env(safe-area-inset-top) 0;
-      font-family:'Roboto',sans-serif;
-      background-color:#f5f5f5;
-      overflow:hidden;
-      touch-action:none;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      height:100vh
-    }
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f5f5f5;overflow:hidden;touch-action:none;height:100vh;display:flex;align-items:center;justify-content:center}
     *{box-sizing:border-box}
-    .app-container{
-      width:100%;
-      max-width:480px;
-      height:100%;
-      background:linear-gradient(135deg,#D32F2F 0%,#B71C1C 100%);
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:space-between;
-      padding:20px;
-      box-shadow:0 0 20px rgba(0,0,0,0.5)
-    }
-    .header{text-align:center;margin-top:20px;color:#FFC107;z-index:10}
-    .header h1{
-      margin:0;font-size:28px;text-transform:uppercase;letter-spacing:2px;
-      text-shadow:2px 2px 4px rgba(0,0,0,0.3)
-    }
-    .header p{color:#fff;font-size:14px;margin-top:5px;opacity:0.9}
+    .app{width:100%;max-width:480px;height:100%;min-height:100vh;background:linear-gradient(135deg,#D32F2F 0%,#B71C1C 100%);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+    .header{text-align:center;margin-top:20px;color:#FFC107}
+    .header h1{margin:0;font-size:28px;letter-spacing:2px;text-transform:uppercase}
+    .header p{margin:6px 0 0;color:#fff;opacity:.9;font-size:14px}
 
     .stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;width:100%}
-    .tube-container{position:relative;width:140px;height:240px;transform-origin:bottom center}
-    .tube{
-      width:100%;height:100%;
-      background:linear-gradient(90deg,#8D6E63 0%,#5D4037 20%,#4E342E 50%,#5D4037 80%,#8D6E63 100%);
-      border-radius:10px 10px 40px 40px;
-      position:absolute;bottom:0;
-      border:4px solid #3E2723;
-      box-shadow:inset 0 0 20px rgba(0,0,0,0.6),5px 5px 15px rgba(0,0,0,0.3);
-      z-index:2;display:flex;justify-content:center;align-items:center
-    }
-    .tube::after{
-      content:'LỘC';font-size:40px;color:#FFC107;font-weight:bold;
-      border:2px solid #FFC107;padding:10px;border-radius:50%;
-      background:rgba(183,28,28,0.8)
-    }
-    .sticks-group{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:100px;height:200px;z-index:1}
+    .tubeWrap{position:relative;width:140px;height:240px;transform-origin:bottom center}
+    .tube{position:absolute;inset:0;background:linear-gradient(90deg,#8D6E63 0%,#5D4037 20%,#4E342E 50%,#5D4037 80%,#8D6E63 100%);border-radius:10px 10px 40px 40px;border:4px solid #3E2723;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 20px rgba(0,0,0,.55),5px 5px 15px rgba(0,0,0,.25)}
+    .tube::after{content:"LỘC";font-size:40px;color:#FFC107;font-weight:900;border:2px solid #FFC107;padding:10px;border-radius:50%;background:rgba(183,28,28,.75)}
+    .sticks{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:100px;height:200px}
     .stick{position:absolute;bottom:0;width:12px;height:220px;background:#FFECB3;border:1px solid #FFCA28;border-radius:5px;transform-origin:bottom center}
     .stick:nth-child(1){transform:rotate(-15deg) translateX(-10px)}
     .stick:nth-child(2){transform:rotate(10deg) translateX(5px)}
@@ -69,270 +32,198 @@
     .stick:nth-child(4){transform:rotate(20deg) translateX(15px)}
     .stick:nth-child(5){transform:rotate(-25deg) translateX(-15px)}
 
-    .falling-stick{
-      position:absolute;width:16px;height:260px;background:#FFF9C4;border:2px solid #FBC02D;
-      left:50%;bottom:180px;transform:translateX(-50%) rotate(0deg);
-      z-index:0;display:none;
-      box-shadow:0 0 10px rgba(255,215,0,0.8);
-      border-radius:8px;justify-content:center;align-items:center;
-      writing-mode:vertical-rl;font-weight:bold;color:#D32F2F;font-size:14px
-    }
-
-    .controls{margin-bottom:30px;width:100%;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-    .btn{
-      background:#FFC107;color:#D32F2F;border:none;padding:15px 26px;font-size:16px;font-weight:bold;
-      border-radius:50px;box-shadow:0 4px 15px rgba(0,0,0,0.3);
-      cursor:pointer;transition:all 0.2s;text-transform:uppercase;outline:none
-    }
-    .btn:active{transform:scale(0.95);box-shadow:0 2px 5px rgba(0,0,0,0.3)}
+    .result{position:absolute;left:50%;bottom:180px;transform:translateX(-50%);width:16px;height:260px;background:#FFF9C4;border:2px solid #FBC02D;border-radius:8px;display:none;align-items:center;justify-content:center;color:#D32F2F;font-weight:800;box-shadow:0 0 10px rgba(255,215,0,.8)}
+    .controls{width:100%;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:25px}
+    .btn{border:none;border-radius:999px;padding:14px 26px;font-weight:900;cursor:pointer;text-transform:uppercase;box-shadow:0 4px 15px rgba(0,0,0,.28)}
+    .btn.primary{background:#FFC107;color:#B71C1C}
     .btn.secondary{background:#fff;color:#B71C1C}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
 
-    .shake-anim{animation:shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite}
-    .fly-out{animation:flyOut 1s ease-out forwards}
+    .shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97) both infinite}
     @keyframes shake{
       10%,90%{transform:translate3d(-2px,0,0) rotate(-2deg)}
       20%,80%{transform:translate3d(4px,0,0) rotate(4deg)}
       30%,50%,70%{transform:translate3d(-8px,0,0) rotate(-8deg)}
       40%,60%{transform:translate3d(8px,0,0) rotate(8deg)}
     }
-    @keyframes flyOut{
-      0%{bottom:20px;opacity:0}
-      20%{opacity:1;z-index:5}
-      100%{bottom:350px;transform:translateX(-50%) rotate(720deg) scale(1.2)}
-    }
 
-    .modal-overlay{
-      position:fixed;top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,0.8);
-      display:none;justify-content:center;align-items:center;
-      z-index:100;opacity:0;transition:opacity 0.3s
-    }
-    .modal-content{
-      background:#fff;width:90%;max-width:400px;border-radius:20px;padding:30px;text-align:center;
-      box-shadow:0 10px 25px rgba(0,0,0,0.5);
-      border:5px solid #FFC107;transform:scale(0.8);transition:transform 0.3s
-    }
-    .modal-title{font-size:24px;color:#D32F2F;margin-bottom:10px;font-weight:bold}
-    .modal-number{font-size:48px;color:#333;margin:10px 0;font-weight:900}
-    .modal-text{font-size:16px;line-height:1.6;color:#555;margin-bottom:20px}
-    .modal-close{background:#D32F2F;color:#fff;border:none;padding:12px 30px;border-radius:25px;font-size:16px;cursor:pointer;font-weight:bold}
-    .visible{display:flex;opacity:1}
-    .visible .modal-content{transform:scale(1)}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:16px}
+    .modal.show{display:flex}
+    .card{background:#fff;max-width:420px;width:100%;border-radius:18px;border:5px solid #FFC107;padding:24px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.5)}
+    .card h2{margin:0;color:#D32F2F}
+    .num{font-size:48px;font-weight:1000;margin:10px 0;color:#222}
+    .txt{color:#555;line-height:1.6;margin-bottom:18px}
+    .close{background:#D32F2F;color:#fff;border:none;border-radius:999px;padding:12px 24px;font-weight:900;cursor:pointer}
   </style>
 </head>
 
 <body>
-  <div class="app-container">
+  <div class="app">
     <div class="header">
       <h1>Gieo Quẻ</h1>
       <p>Lắc điện thoại để cầu may</p>
     </div>
 
     <div class="stage">
-      <div class="tube-container" id="tube">
-        <div class="sticks-group">
+      <div class="tubeWrap" id="tube">
+        <div class="sticks">
           <div class="stick"></div><div class="stick"></div><div class="stick"></div><div class="stick"></div><div class="stick"></div>
         </div>
         <div class="tube"></div>
       </div>
-
-      <div class="falling-stick" id="resultStick"><span>QUẺ SỐ</span></div>
+      <div class="result" id="resultStick">01</div>
     </div>
 
     <div class="controls">
-      <button class="btn" id="actionBtn">Bắt đầu</button>
+      <button class="btn primary" id="startBtn">Bắt đầu</button>
       <button class="btn secondary" id="againBtn" disabled>Gieo quẻ khác</button>
     </div>
   </div>
 
-  <div class="modal-overlay" id="modal">
-    <div class="modal-content">
-      <div class="modal-title" id="mTitle">QUẺ ĐẠI CÁT</div>
-      <div class="modal-number" id="mNum">01</div>
-      <div class="modal-text" id="mText">Thời vận hanh thông, vạn sự như ý.</div>
-      <button class="modal-close" id="modalAgainBtn">Thỉnh quẻ khác</button>
+  <div class="modal" id="modal">
+    <div class="card">
+      <h2 id="mTitle">QUẺ ĐẠI CÁT</h2>
+      <div class="num" id="mNum">01</div>
+      <div class="txt" id="mText">Cầu tài đắc tài, cầu lộc đắc lộc.</div>
+      <button class="close" id="modalAgain">Thỉnh quẻ khác</button>
     </div>
   </div>
 
   <script>
-    // ====== DỮ LIỆU QUẺ ======
+    // ====== PWA SW ======
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+    }
+
     const fortunes = [
-      { title: "QUẺ ĐẠI CÁT",   text: "Cầu tài đắc tài, cầu lộc đắc lộc. Mọi sự hanh thông, gia đạo bình an." },
-      { title: "QUẺ TRUNG BÌNH",text: "Nên giữ gìn những gì đang có. Chớ vội vàng đầu tư lớn. Bình tĩnh chờ thời." },
-      { title: "QUẺ THƯỢNG CÁT",text: "Quý nhân phù trợ, khó khăn lùi xa. Tình duyên nở rộ, niềm vui ngập tràn." },
-      { title: "QUẺ TIỂU CÁT",  text: "Có chút lộc nhỏ, niềm vui bất ngờ. Sức khỏe dồi dào, tâm hồn thư thái." },
-      { title: "QUẺ HẠ HẠ",     text: "Cẩn trọng lời ăn tiếng nói. Đề phòng tiểu nhân. Nên làm việc thiện tích đức." },
-      { title: "QUẺ BÌNH AN",   text: "Vững tâm bền chí ắt thành công. Mọi sóng gió sẽ qua đi nhẹ nhàng." }
+      { title: "QUẺ ĐẠI CÁT", text: "Cầu tài đắc tài, cầu lộc đắc lộc. Mọi sự hanh thông, gia đạo bình an." },
+      { title: "QUẺ THƯỢNG CÁT", text: "Quý nhân phù trợ, khó khăn lùi xa. Tình duyên nở rộ, niềm vui ngập tràn." },
+      { title: "QUẺ TIỂU CÁT", text: "Có chút lộc nhỏ, niềm vui bất ngờ. Sức khỏe dồi dào, tâm hồn thư thái." },
+      { title: "QUẺ TRUNG BÌNH", text: "Nên giữ gìn những gì đang có. Chớ vội vàng đầu tư lớn. Bình tĩnh chờ thời." },
+      { title: "QUẺ BÌNH AN", text: "Vững tâm bền chí ắt thành công. Mọi sóng gió sẽ qua đi nhẹ nhàng." },
+      { title: "QUẺ HẠ HẠ", text: "Cẩn trọng lời ăn tiếng nói. Đề phòng tiểu nhân. Nên làm việc thiện tích đức." }
     ];
 
-    // ====== STATE CHỐNG “GIẬT NHẸ RA NHIỀU QUẺ” ======
-    let hasSensor = false;      // đã gắn listener cảm biến chưa
-    let isAnimating = false;    // đang lắc / đang bay que
-    let canDraw = true;         // CHỈ cho gieo khi true
-    let lastShakeAt = 0;        // cooldown chống spam
-    const SHAKE_COOLDOWN_MS = 1800; // giật liên tục cũng không ra thêm
+    // chống giật ra nhiều quẻ
+    let canDraw = true;
+    let isAnimating = false;
+    let hasSensor = false;
+    let lastShakeAt = 0;
+    const SHAKE_COOLDOWN_MS = 1800;
     const shakeThreshold = 15;
 
-    let lastX = 0, lastY = 0, lastZ = 0;
-    let lastUpdate = 0;
+    let lastX=0,lastY=0,lastZ=0,lastUpdate=0;
 
     const tube = document.getElementById('tube');
     const resultStick = document.getElementById('resultStick');
-    const btn = document.getElementById('actionBtn');
+    const startBtn = document.getElementById('startBtn');
     const againBtn = document.getElementById('againBtn');
     const modal = document.getElementById('modal');
-    const modalAgainBtn = document.getElementById('modalAgainBtn');
 
-    function setUiState() {
-      // canDraw true => cho lắc/bấm
-      btn.disabled = !canDraw || isAnimating;
-      againBtn.disabled = (canDraw || isAnimating); // chỉ bật khi đã ra quẻ (canDraw=false)
-      if (canDraw) {
-        btn.textContent = hasSensor ? "LẮC MẠNH!" : "Bắt đầu";
-      } else {
-        btn.textContent = "ĐÃ RA QUẺ";
-      }
+    function setUI(){
+      startBtn.disabled = !canDraw || isAnimating;
+      againBtn.disabled = canDraw || isAnimating;
+      startBtn.textContent = canDraw ? (hasSensor ? "LẮC MẠNH!" : "Bắt đầu") : "ĐÃ RA QUẺ";
     }
 
-    // ====== XIN QUYỀN CẢM BIẾN (iOS) ======
-    async function requestPermissionAndStart() {
-      try {
+    async function enableSensor(){
+      // iOS cần xin permission
+      try{
         if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
           const res = await DeviceMotionEvent.requestPermission();
-          if (res !== 'granted') {
-            alert("Cần cấp quyền cảm biến để lắc!");
-            return;
-          }
+          if (res !== 'granted') { alert("Cần cấp quyền cảm biến để lắc!"); return; }
         }
-        startSensor();
-      } catch (e) {
+        if (!hasSensor){
+          window.addEventListener('devicemotion', handleMotion, {passive:true});
+          hasSensor = true;
+        }
+        setUI();
+      }catch(e){
         console.error(e);
-        alert("Không xin được quyền cảm biến. Bạn có thể dùng nút để gieo.");
+        alert("Không bật được cảm biến. Bạn vẫn có thể bấm để gieo.");
       }
     }
 
-    function startSensor() {
-      if (hasSensor) return;
-      window.addEventListener('devicemotion', handleMotion, { passive: true });
-      hasSensor = true;
-      setUiState();
-    }
-
-    function handleMotion(event) {
-      if (!canDraw || isAnimating || modal.classList.contains('visible')) return;
-
-      const acc = event.accelerationIncludingGravity;
+    function handleMotion(e){
+      if (!canDraw || isAnimating || modal.classList.contains('show')) return;
+      const acc = e.accelerationIncludingGravity;
       if (!acc) return;
 
-      const curTime = Date.now();
-      if ((curTime - lastUpdate) > 100) {
-        const diffTime = curTime - lastUpdate;
-        lastUpdate = curTime;
-
-        const x = acc.x || 0;
-        const y = acc.y || 0;
-        const z = acc.z || 0;
-
-        const speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
-
-        if (speed > shakeThreshold) tryStartDraw();
-
-        lastX = x; lastY = y; lastZ = z;
-      }
-    }
-
-    // ====== CHỐNG SPAM LẮC / BẤM ======
-    function tryStartDraw() {
       const now = Date.now();
-      if (!canDraw) return;
-      if (isAnimating) return;
-      if (modal.classList.contains('visible')) return;
-      if (now - lastShakeAt < SHAKE_COOLDOWN_MS) return;
+      if (now - lastUpdate < 100) return;
+      const diff = now - lastUpdate;
+      lastUpdate = now;
 
-      lastShakeAt = now;
-      startDraw();
+      const x = acc.x || 0, y = acc.y || 0, z = acc.z || 0;
+      const speed = Math.abs(x+y+z - lastX-lastY-lastZ) / diff * 10000;
+
+      if (speed > shakeThreshold) tryDraw();
+      lastX=x;lastY=y;lastZ=z;
     }
 
-    function startDraw() {
-      isAnimating = true;
-      setUiState();
+    function tryDraw(){
+      const now = Date.now();
+      if (!canDraw || isAnimating || modal.classList.contains('show')) return;
+      if (now - lastShakeAt < SHAKE_COOLDOWN_MS) return;
+      lastShakeAt = now;
+      draw();
+    }
 
+    function draw(){
+      isAnimating = true;
+      setUI();
       if (navigator.vibrate) navigator.vibrate(120);
 
-      tube.classList.add('shake-anim');
-      btn.textContent = "Đang gieo quẻ...";
+      tube.classList.add('shake');
+      startBtn.textContent = "Đang gieo quẻ...";
 
-      // thời gian “lắc” giả lập
-      setTimeout(() => {
-        tube.classList.remove('shake-anim');
+      setTimeout(()=>{
+        tube.classList.remove('shake');
         showResult();
       }, 1200);
     }
 
-    function showResult() {
-      // khóa luôn: chỉ mở lại khi bấm “Thỉnh quẻ khác”
+    function showResult(){
       canDraw = false;
 
-      const randomId = Math.floor(Math.random() * 60) + 1;
-      const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+      const id = Math.floor(Math.random()*60)+1;
+      const fortune = fortunes[Math.floor(Math.random()*fortunes.length)];
 
-      resultStick.style.display = 'flex';
-      resultStick.innerHTML = `<span>SỐ ${randomId}</span>`;
-      resultStick.classList.add('fly-out');
+      resultStick.style.display='flex';
+      resultStick.textContent = (id<10?`0${id}`:String(id));
 
-      if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
+      setTimeout(()=>{
+        document.getElementById('mTitle').textContent = fortune.title;
+        document.getElementById('mNum').textContent = (id<10?`0${id}`:String(id));
+        document.getElementById('mText').textContent = fortune.text;
 
-      setTimeout(() => {
-        document.getElementById('mTitle').innerText = fortune.title;
-        document.getElementById('mNum').innerText = randomId < 10 ? `0${randomId}` : `${randomId}`;
-        document.getElementById('mText').innerText = fortune.text;
+        resultStick.style.display='none';
+        modal.classList.add('show');
 
-        modal.classList.add('visible');
-
-        // kết thúc animation, nhưng vẫn KHÓA gieo (canDraw=false)
         isAnimating = false;
-
-        // reset que rơi
-        resultStick.style.display = 'none';
-        resultStick.classList.remove('fly-out');
-
-        setUiState();
-      }, 950);
+        setUI();
+      }, 450);
     }
 
-    function resetForNextDraw() {
-      // chỉ gọi khi người dùng chủ động gieo lại
-      modal.classList.remove('visible');
+    function reset(){
+      modal.classList.remove('show');
       canDraw = true;
       isAnimating = false;
-      lastShakeAt = Date.now(); // tạo “đệm” chống giật ngay sau khi đóng modal
-      setUiState();
+      lastShakeAt = Date.now();
+      setUI();
     }
 
-    // ====== NÚT BẤM ======
-    btn.addEventListener('click', () => {
-      // nếu chưa xin quyền thì xin quyền; nếu đã có quyền thì gieo bằng bấm
-      if (!hasSensor) {
-        requestPermissionAndStart();
-        // không gieo ngay ở đây để tránh “bấm là ra quẻ” + dễ bị double-trigger
-        // người dùng bấm lần 2 hoặc lắc để gieo
-        btn.textContent = "LẮC MẠNH!";
-        return;
-      }
-      tryStartDraw();
+    startBtn.addEventListener('click', async ()=>{
+      if (!hasSensor) await enableSensor();
+      // Sau khi bật cảm biến, người dùng lắc để gieo.
+      // Nếu muốn bấm là gieo luôn, bỏ comment dòng dưới:
+      // tryDraw();
     });
 
-    againBtn.addEventListener('click', resetForNextDraw);
-    modalAgainBtn.addEventListener('click', resetForNextDraw);
+    againBtn.addEventListener('click', reset);
+    document.getElementById('modalAgain').addEventListener('click', reset);
 
-    // ====== SERVICE WORKER ======
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js');
-      });
-    }
-
-    setUiState();
+    setUI();
   </script>
 </body>
 </html>
