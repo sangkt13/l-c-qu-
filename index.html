@@ -2,44 +2,185 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Gieo Quẻ Tài Lộc</title>
 
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#D32F2F">
-  <meta name="description" content="Gieo quẻ tài lộc, cầu may mỗi ngày.">
-
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="icon" href="icons/icon-192.png">
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="theme-color" content="#D32F2F" />
+  <meta name="description" content="Gieo quẻ tài lộc, cầu may mỗi ngày." />
 
   <style>
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f5f5f5;overflow:hidden;touch-action:none;height:100vh;display:flex;align-items:center;justify-content:center}
+    :root{
+      --red:#D32F2F;
+      --deep:#B71C1C;
+      --gold:#FFC107;
+      --bg:#0b0b0b;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+    }
     *{box-sizing:border-box}
-    .app{width:100%;max-width:480px;height:100%;min-height:100vh;background:linear-gradient(135deg,#D32F2F 0%,#B71C1C 100%);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
-    .header{text-align:center;margin-top:20px;color:#FFC107}
-    .header h1{margin:0;font-size:28px;letter-spacing:2px;text-transform:uppercase}
-    .header p{margin:6px 0 0;color:#fff;opacity:.9;font-size:14px}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: linear-gradient(135deg, var(--red) 0%, var(--deep) 100%);
+      color:#fff;
+      overflow:hidden;
+    }
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+      max-width:520px;
+      margin:0 auto;
+    }
+    .header{
+      text-align:center;
+      padding-top:8px;
+    }
+    .title{
+      margin:0;
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:1px;
+      color:var(--gold);
+      text-shadow: 0 2px 10px rgba(0,0,0,.25);
+      text-transform:uppercase;
+    }
+    .sub{
+      margin:8px 0 0;
+      font-size:14px;
+      opacity:.9;
+    }
 
-    .stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;width:100%}
-    .tubeWrap{position:relative;width:140px;height:240px;transform-origin:bottom center}
-    .tube{position:absolute;inset:0;background:linear-gradient(90deg,#8D6E63 0%,#5D4037 20%,#4E342E 50%,#5D4037 80%,#8D6E63 100%);border-radius:10px 10px 40px 40px;border:4px solid #3E2723;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 20px rgba(0,0,0,.55),5px 5px 15px rgba(0,0,0,.25)}
-    .tube::after{content:"LỘC";font-size:40px;color:#FFC107;font-weight:900;border:2px solid #FFC107;padding:10px;border-radius:50%;background:rgba(183,28,28,.75)}
-    .sticks{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:100px;height:200px}
-    .stick{position:absolute;bottom:0;width:12px;height:220px;background:#FFECB3;border:1px solid #FFCA28;border-radius:5px;transform-origin:bottom center}
-    .stick:nth-child(1){transform:rotate(-15deg) translateX(-10px)}
-    .stick:nth-child(2){transform:rotate(10deg) translateX(5px)}
-    .stick:nth-child(3){transform:rotate(-5deg) translateX(-2px)}
-    .stick:nth-child(4){transform:rotate(20deg) translateX(15px)}
-    .stick:nth-child(5){transform:rotate(-25deg) translateX(-15px)}
+    .stage{
+      flex:1;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      padding:10px 0;
+    }
 
-    .result{position:absolute;left:50%;bottom:180px;transform:translateX(-50%);width:16px;height:260px;background:#FFF9C4;border:2px solid #FBC02D;border-radius:8px;display:none;align-items:center;justify-content:center;color:#D32F2F;font-weight:800;box-shadow:0 0 10px rgba(255,215,0,.8)}
-    .controls{width:100%;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:25px}
-    .btn{border:none;border-radius:999px;padding:14px 26px;font-weight:900;cursor:pointer;text-transform:uppercase;box-shadow:0 4px 15px rgba(0,0,0,.28)}
-    .btn.primary{background:#FFC107;color:#B71C1C}
-    .btn.secondary{background:#fff;color:#B71C1C}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .tubeWrap{
+      width:150px;
+      height:260px;
+      position:relative;
+      transform-origin:bottom center;
+      filter: drop-shadow(0 14px 22px rgba(0,0,0,.25));
+    }
+    .tube{
+      position:absolute;
+      inset:0;
+      border-radius:12px 12px 44px 44px;
+      border:4px solid #3E2723;
+      background: linear-gradient(90deg,#8D6E63 0%,#5D4037 22%,#4E342E 50%,#5D4037 78%,#8D6E63 100%);
+      box-shadow: inset 0 0 18px rgba(0,0,0,.6);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .tube::after{
+      content:"LỘC";
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:96px;height:96px;
+      font-weight:1000;
+      font-size:40px;
+      color:var(--gold);
+      border-radius:999px;
+      border:2px solid var(--gold);
+      background: rgba(183,28,28,.78);
+      text-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
 
-    .shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97) both infinite}
+    .sticks{
+      position:absolute;
+      bottom:22px;
+      left:50%;
+      transform:translateX(-50%);
+      width:110px;
+      height:220px;
+      z-index:-1;
+    }
+    .stick{
+      position:absolute;
+      bottom:0;
+      width:12px;
+      height:230px;
+      background:#FFECB3;
+      border:1px solid #FFCA28;
+      border-radius:6px;
+      transform-origin:bottom center;
+    }
+    .stick:nth-child(1){transform:rotate(-16deg) translateX(-12px)}
+    .stick:nth-child(2){transform:rotate(10deg) translateX(8px)}
+    .stick:nth-child(3){transform:rotate(-6deg) translateX(-3px)}
+    .stick:nth-child(4){transform:rotate(20deg) translateX(18px)}
+    .stick:nth-child(5){transform:rotate(-26deg) translateX(-20px)}
+
+    .resultStick{
+      position:absolute;
+      left:50%;
+      bottom:195px;
+      transform:translateX(-50%);
+      width:18px;
+      height:285px;
+      border-radius:10px;
+      border:2px solid #FBC02D;
+      background: #FFF9C4;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      color:#B71C1C;
+      font-weight:1000;
+      box-shadow: 0 0 14px rgba(255,215,0,.75);
+      z-index:3;
+    }
+    .resultStick span{
+      display:inline-block;
+      transform: rotate(-90deg);
+      letter-spacing:1px;
+      font-size:14px;
+      white-space:nowrap;
+    }
+
+    .controls{
+      width:100%;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      padding-bottom:6px;
+    }
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:999px;
+      padding:14px 18px;
+      font-weight:900;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+      transition: transform .12s ease, opacity .12s ease;
+      min-width:170px;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn.primary{background:var(--gold); color:#8a1414;}
+    .btn.secondary{background:#fff; color:#8a1414;}
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+
+    .shake{ animation:shake .55s cubic-bezier(.36,.07,.19,.97) both infinite; }
     @keyframes shake{
       10%,90%{transform:translate3d(-2px,0,0) rotate(-2deg)}
       20%,80%{transform:translate3d(4px,0,0) rotate(4deg)}
@@ -47,21 +188,75 @@
       40%,60%{transform:translate3d(8px,0,0) rotate(8deg)}
     }
 
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:16px}
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.75);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:50;
+    }
     .modal.show{display:flex}
-    .card{background:#fff;max-width:420px;width:100%;border-radius:18px;border:5px solid #FFC107;padding:24px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.5)}
-    .card h2{margin:0;color:#D32F2F}
-    .num{font-size:48px;font-weight:1000;margin:10px 0;color:#222}
-    .txt{color:#555;line-height:1.6;margin-bottom:18px}
-    .close{background:#D32F2F;color:#fff;border:none;border-radius:999px;padding:12px 24px;font-weight:900;cursor:pointer}
+    .card{
+      width:100%;
+      max-width:430px;
+      background:var(--card);
+      color:var(--text);
+      border-radius:18px;
+      border:5px solid var(--gold);
+      box-shadow: 0 18px 40px rgba(0,0,0,.5);
+      padding:22px 18px;
+      text-align:center;
+      transform: translateY(6px);
+    }
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      padding:6px 12px;
+      border-radius:999px;
+      background:#fff7db;
+      border:1px solid #f4d27a;
+      color:#8a1414;
+      font-weight:900;
+      font-size:13px;
+      margin-bottom:10px;
+    }
+    .qnum{
+      font-size:54px;
+      font-weight:1000;
+      margin:6px 0 2px;
+      color:#111827;
+      letter-spacing:2px;
+    }
+    .rank{
+      font-weight:1000;
+      color:var(--red);
+      margin:4px 0 10px;
+      font-size:16px;
+    }
+    .meaning{
+      color:#374151;
+      line-height:1.6;
+      font-size:15px;
+      margin:0 0 16px;
+    }
+    .smallnote{
+      color:var(--muted);
+      font-size:12px;
+      margin:0 0 14px;
+    }
   </style>
 </head>
 
 <body>
-  <div class="app">
+  <div class="wrap">
     <div class="header">
-      <h1>Gieo Quẻ</h1>
-      <p>Lắc điện thoại để cầu may</p>
+      <h1 class="title">Gieo Quẻ</h1>
+      <p class="sub">Lắc điện thoại hoặc bấm nút để thỉnh quẻ (1–100)</p>
     </div>
 
     <div class="stage">
@@ -71,7 +266,10 @@
         </div>
         <div class="tube"></div>
       </div>
-      <div class="result" id="resultStick">01</div>
+
+      <div class="resultStick" id="resultStick">
+        <span>QUẺ 01</span>
+      </div>
     </div>
 
     <div class="controls">
@@ -80,55 +278,156 @@
     </div>
   </div>
 
-  <div class="modal" id="modal">
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
     <div class="card">
-      <h2 id="mTitle">QUẺ ĐẠI CÁT</h2>
-      <div class="num" id="mNum">01</div>
-      <div class="txt" id="mText">Cầu tài đắc tài, cầu lộc đắc lộc.</div>
-      <button class="close" id="modalAgain">Thỉnh quẻ khác</button>
+      <div class="badge" id="mBadge">QUẺ</div>
+      <div class="qnum" id="mNum">01</div>
+      <div class="rank" id="mRank">Thượng Thượng</div>
+      <p class="meaning" id="mText">Đại cát, vạn sự như ý, danh lợi đều thành.</p>
+      <p class="smallnote">Bạn có thể “Gieo quẻ khác” nếu muốn thỉnh lại.</p>
+      <button class="btn primary" id="modalAgain">Gieo quẻ khác</button>
     </div>
   </div>
 
   <script>
-    // ====== PWA SW ======
+    // ===== PWA service worker (nếu bạn có sw.js) =====
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
     }
 
+    // ===== DỮ LIỆU QUẺ 1 - 100 (đã cập nhật theo nội dung bạn gửi) =====
     const fortunes = [
-      { title: "QUẺ ĐẠI CÁT", text: "Cầu tài đắc tài, cầu lộc đắc lộc. Mọi sự hanh thông, gia đạo bình an." },
-      { title: "QUẺ THƯỢNG CÁT", text: "Quý nhân phù trợ, khó khăn lùi xa. Tình duyên nở rộ, niềm vui ngập tràn." },
-      { title: "QUẺ TIỂU CÁT", text: "Có chút lộc nhỏ, niềm vui bất ngờ. Sức khỏe dồi dào, tâm hồn thư thái." },
-      { title: "QUẺ TRUNG BÌNH", text: "Nên giữ gìn những gì đang có. Chớ vội vàng đầu tư lớn. Bình tĩnh chờ thời." },
-      { title: "QUẺ BÌNH AN", text: "Vững tâm bền chí ắt thành công. Mọi sóng gió sẽ qua đi nhẹ nhàng." },
-      { title: "QUẺ HẠ HẠ", text: "Cẩn trọng lời ăn tiếng nói. Đề phòng tiểu nhân. Nên làm việc thiện tích đức." }
+      {no:1,  rank:"Thượng Thượng", text:"Đại cát, vạn sự như ý, danh lợi đều thành."},
+      {no:2,  rank:"Thượng Cát",    text:"Trước khó sau dễ, kiên trì sẽ có vinh hoa."},
+      {no:3,  rank:"Trung Cát",    text:"Có quý nhân giúp đỡ, gia đạo bình an."},
+      {no:4,  rank:"Hạ Hạ",        text:"Tâm thần bất định, đề phòng hao tài tốn của."},
+      {no:5,  rank:"Trung Bình",   text:"Nên giữ lễ nghĩa, không nên tham cầu quá sức."},
+      {no:6,  rank:"Hạ Hạ",        text:"Nhiều rắc rối, không nên đi xa, phòng thị phi."},
+      {no:7,  rank:"Thượng Thượng",text:"Gặp may mắn bất ngờ, người xa trở về."},
+      {no:8,  rank:"Thượng Cát",   text:"Công danh toại nguyện, mọi việc hanh thông."},
+      {no:9,  rank:"Trung Cát",    text:"Nên lui về nghỉ ngơi, không nên tranh giành."},
+      {no:10, rank:"Hạ Hạ",        text:"Gặp cảnh chia ly hoặc lo âu, cần nhẫn nại."},
+      {no:11, rank:"Thượng Cát",   text:"Thời cơ đã đến, làm việc gì cũng thành công."},
+      {no:12, rank:"Trung Bình",   text:"Cần tu tâm dưỡng tính, chờ đợi thời cơ khác."},
+      {no:13, rank:"Thượng Cát",   text:"Tài lộc dồi dào, người xa đem tin vui về."},
+      {no:14, rank:"Hạ Hạ",        text:"Phòng bệnh tật và tang khó, vạn sự không thành."},
+      {no:15, rank:"Trung Bình",   text:"Cần khéo léo trong giao tiếp, giữ vững lập trường."},
+      {no:16, rank:"Thượng Thượng",text:"Gặp được người tốt giúp đỡ, mưu sự đại thành."},
+      {no:17, rank:"Trung Cát",    text:"Danh tiếng vang xa nhưng cần khiêm tốn."},
+      {no:18, rank:"Hạ Hạ",        text:"Nguy hiểm cận kề, tuyệt đối không nên mạo hiểm."},
+      {no:19, rank:"Thượng Cát",   text:"Sau cơn mưa trời lại sáng, tài lộc tự đến."},
+      {no:20, rank:"Trung Bình",   text:"An phận thủ thường, không nên thay đổi công việc."},
+      {no:21, rank:"Thượng Thượng",text:"Bước lên vị trí cao, quyền thế vững vàng."},
+      {no:22, rank:"Thượng Cát",   text:"Đất nước thái bình, gia đình hạnh phúc."},
+      {no:23, rank:"Hạ Hạ",        text:"Có sự phản bội hoặc đau khổ trong tình cảm."},
+      {no:24, rank:"Trung Bình",   text:"Phải đi xa mới có lợi, ở nhà không thành công."},
+      {no:25, rank:"Thượng Cát",   text:"Gặp vận may hiếm có, cầu con được con."},
+
+      {no:26, rank:"Trung Cát",    text:"Mọi việc bình ổn, cần sự tính toán kỹ lưỡng."},
+      {no:27, rank:"Hạ Hạ",        text:"Đề phòng sắc dục và thị phi làm hại bản thân."},
+      {no:28, rank:"Thượng Thượng",text:"Vật về chủ cũ, kiện cáo thắng lợi, tài lộc tốt."},
+      {no:29, rank:"Thượng Cát",   text:"Sống thọ, con cháu hiếu thảo, gia đạo an vui."},
+      {no:30, rank:"Trung Bình",   text:"Vui vẻ nhất thời, đừng quá ham chơi mà hỏng việc."},
+      {no:31, rank:"Hạ Hạ",        text:"Gian nan vất vả, làm nhiều hưởng ít."},
+      {no:32, rank:"Thượng Cát",   text:"Có duyên tiền định, cầu hôn nhân rất tốt."},
+      {no:33, rank:"Trung Cát",    text:"Cần chuẩn bị kỹ trước khi ra quân (làm việc lớn)."},
+      {no:34, rank:"Hạ Hạ",        text:"Mất mát lớn, nên dừng lại để bảo toàn vốn."},
+      {no:35, rank:"Trung Bình",   text:"Thời chưa tới, hãy kiên nhẫn chờ đợi quý nhân."},
+      {no:36, rank:"Thượng Thượng",text:"Gặp được minh chủ hoặc sếp tốt, sự nghiệp lên cao."},
+      {no:37, rank:"Thượng Cát",   text:"Tài hoa được công nhận, thi cử đỗ đạt."},
+      {no:38, rank:"Trung Bình",   text:"Nhẫn nhục chờ thời, không nên đối đầu trực diện."},
+      {no:39, rank:"Hạ Hạ",        text:"Mất mát tài sản hoặc vị trí, cần cẩn trọng."},
+      {no:40, rank:"Trung Cát",    text:"Tìm được nơi an thân lập nghiệp tốt."},
+      {no:41, rank:"Thượng Thượng",text:"Thuận buồm xuôi gió, đi xa có lợi lớn."},
+      {no:42, rank:"Thượng Cát",   text:"Thành quả sau bao ngày tu dưỡng, rất bền vững."},
+      {no:43, rank:"Trung Bình",   text:"Trở về quê cũ hoặc làm việc cũ sẽ tốt hơn."},
+      {no:44, rank:"Hạ Hạ",        text:"Cạm bẫy bủa vây, đừng tin lời người lạ."},
+      {no:45, rank:"Trung Cát",    text:"Nghiêm túc chấp hành pháp luật sẽ bình an."},
+      {no:46, rank:"Thượng Thượng",text:"Thiên thời địa lợi nhân hòa, cầu gì được nấy."},
+      {no:47, rank:"Thượng Cát",   text:"Dũng cảm tiến lên sẽ vượt qua nghịch cảnh."},
+      {no:48, rank:"Trung Bình",   text:"Cần sự giúp đỡ của anh em, bạn bè mới thành."},
+      {no:49, rank:"Hạ Hạ",        text:"Chịu nhục để cầu toàn, không nên tranh cãi."},
+      {no:50, rank:"Trung Cát",    text:"Khổ tận cam lai, sự kiên trì được đền đáp."},
+
+      {no:51, rank:"Thượng Cát",   text:"Tình duyên chớm nở, có tin vui từ phương xa."},
+      {no:52, rank:"Trung Cát",    text:"Có nỗi buồn thầm kín, cần người chia sẻ."},
+      {no:53, rank:"Hạ Hạ",        text:"Đi sai đường, cần quay đầu lại ngay lập tức."},
+      {no:54, rank:"Trung Bình",   text:"Nỗ lực bản thân là chính, đừng trông chờ ai."},
+      {no:55, rank:"Thượng Cát",   text:"Công lý được thực thi, nỗi oan được giải."},
+      {no:56, rank:"Hạ Hạ",        text:"Thành công rồi lại mất, nên biết đủ là hạnh phúc."},
+      {no:57, rank:"Trung Bình",   text:"Vất vả ngược xuôi nhưng kết quả vừa ý."},
+      {no:58, rank:"Thượng Cát",   text:"Sau bao năm chờ đợi, mong ước đã thành sự thật."},
+      {no:59, rank:"Hạ Hạ",        text:"Thất bại nặng nề do chủ quan, cần đề phòng."},
+      {no:60, rank:"Trung Bình",   text:"Tránh mưu mô, nên sống chân thành sẽ thoát nạn."},
+      {no:61, rank:"Thượng Thượng",text:"Trung nghĩa vẹn toàn, được mọi người kính trọng."},
+      {no:62, rank:"Trung Bình",   text:"Đường đời gian nan nhưng cuối cùng vẫn đến đích."},
+      {no:63, rank:"Trung Cát",    text:"Biết lỗi sửa sai sẽ nhận được sự tha thứ."},
+      {no:64, rank:"Hạ Hạ",        text:"Đừng vì cái lợi nhỏ mà mất đi danh dự."},
+      {no:65, rank:"Thượng Cát",   text:"Lời nói có trọng lượng, thuyết phục được người khác."},
+      {no:66, rank:"Hạ Hạ",        text:"Tính toán quá nhiều lại thành hỏng việc."},
+      {no:67, rank:"Trung Bình",   text:"Tránh ham mê rượu chè, cờ bạc mà thân bại danh liệt."},
+      {no:68, rank:"Thượng Thượng",text:"Gặp vận đỏ như rồng gặp nước, thăng tiến nhanh."},
+      {no:69, rank:"Trung Bình",   text:"Gặp khó khăn tạm thời, cần giữ vững ý chí."},
+      {no:70, rank:"Hạ Hạ",        text:"Hy sinh bản thân vì người khác nhưng không được đền đáp."},
+      {no:71, rank:"Thượng Cát",   text:"Lòng trung thành được báo đáp, tiếng thơm để đời."},
+      {no:72, rank:"Trung Cát",    text:"Thủ vững tốt hơn công, nên cẩn trọng giữ gìn."},
+      {no:73, rank:"Hạ Hạ",        text:"Có sự tang chế hoặc mất mát người thân."},
+      {no:74, rank:"Thượng Thượng",text:"Vượt qua cửa ải khó khăn một cách ngoạn mục."},
+      {no:75, rank:"Trung Bình",   text:"Thư giãn tâm hồn, đừng quá áp lực chuyện tiền bạc."},
+
+      {no:76, rank:"Trung Cát",    text:"Sự cạnh tranh gay gắt, cần dùng trí tuệ để thắng."},
+      {no:77, rank:"Hạ Hạ",        text:"Mơ mộng hão huyền, thực tế rất phũ phàng."},
+      {no:78, rank:"Thượng Cát",   text:"Có tham vọng lớn nhưng cần biết điểm dừng."},
+      {no:79, rank:"Trung Bình",   text:"Nghệ thuật và học vấn thăng tiến, tài lộc trung bình."},
+      {no:80, rank:"Thượng Thượng",text:"Đạt được mục tiêu lớn lao, vạn sự viên mãn."},
+      {no:81, rank:"Hạ Hạ",        text:"Cảnh báo về sự suy vong nếu sống xa hoa, lãng phí."},
+      {no:82, rank:"Thượng Thượng",text:"Duyên số tốt đẹp, gặp được người tri kỷ."},
+      {no:83, rank:"Trung Cát",    text:"Được giao trọng trách, cần làm việc hết mình."},
+      {no:84, rank:"Hạ Hạ",        text:"Đề phòng phụ nữ độc đoán hoặc thị phi trong nhà."},
+      {no:85, rank:"Thượng Cát",   text:"Có sự phù hộ của thần linh, tai qua nạn khỏi."},
+      {no:86, rank:"Trung Bình",   text:"Hợp tác làm ăn sẽ có lợi hơn làm một mình."},
+      {no:87, rank:"Trung Cát",    text:"Sức mạnh và lòng can đảm giúp vượt qua sợ hãi."},
+      {no:88, rank:"Hạ Hạ",        text:"Khôn ngoan quá mức dễ bị ghét bỏ, phòng họa sát thân."},
+      {no:89, rank:"Thượng Thượng",text:"Đổi nghề hoặc thay đổi hướng đi sẽ đại thắng."},
+      {no:90, rank:"Trung Bình",   text:"Cẩn thận hậu vận, đừng để cuối đời gặp khó."},
+      {no:91, rank:"Thượng Cát",   text:"Trung thành, dũng cảm, bảo vệ được thành quả."},
+      {no:92, rank:"Trung Cát",    text:"Tính toán không bằng trời tính, hãy thuận tự nhiên."},
+      {no:93, rank:"Hạ Hạ",        text:"Thất bại do không nghe lời khuyên bảo của người tốt."},
+      {no:94, rank:"Thượng Thượng",text:"Trở về trong vinh quang, công thành danh toại."},
+      {no:95, rank:"Trung Bình",   text:"Kiên trì phò tá người giỏi sẽ có ngày thành công."},
+      {no:96, rank:"Thượng Cát",   text:"Khởi nghiệp thuận lợi, có nền móng vững chắc."},
+      {no:97, rank:"Trung Cát",    text:"Tuy nghèo nhưng sạch, sau này sẽ có phúc báo."},
+      {no:98, rank:"Hạ Hạ",        text:"Nóng nảy hỏng việc, đề phòng tai nạn bất ngờ."},
+      {no:99, rank:"Thượng Cát",   text:"Gia đình đoàn tụ, tìm lại được người thân."},
+      {no:100,rank:"Thượng Thượng",text:"Kết thúc hoàn hảo, hưởng phúc lộc thọ trọn vẹn."},
     ];
 
-    // chống giật ra nhiều quẻ
-    let canDraw = true;
-    let isAnimating = false;
-    let hasSensor = false;
-    let lastShakeAt = 0;
-    const SHAKE_COOLDOWN_MS = 1800;
-    const shakeThreshold = 15;
-
-    let lastX=0,lastY=0,lastZ=0,lastUpdate=0;
-
+    // ===== Chống “giật nhẹ ra nhiều quẻ” + khoá chức năng khi đang chạy =====
     const tube = document.getElementById('tube');
     const resultStick = document.getElementById('resultStick');
     const startBtn = document.getElementById('startBtn');
     const againBtn = document.getElementById('againBtn');
     const modal = document.getElementById('modal');
 
+    let canDraw = true;        // được phép gieo hay không
+    let isAnimating = false;   // đang lắc/đang show
+    let hasSensor = false;
+
+    // chống spam rung
+    const SHAKE_COOLDOWN_MS = 1700;
+    const shakeThreshold = 15;
+    let lastShakeAt = 0;
+    let lastX=0,lastY=0,lastZ=0,lastUpdate=0;
+
     function setUI(){
       startBtn.disabled = !canDraw || isAnimating;
       againBtn.disabled = canDraw || isAnimating;
-      startBtn.textContent = canDraw ? (hasSensor ? "LẮC MẠNH!" : "Bắt đầu") : "ĐÃ RA QUẺ";
+      startBtn.textContent = canDraw ? (hasSensor ? "Lắc mạnh!" : "Bắt đầu") : "Đã ra quẻ";
     }
 
     async function enableSensor(){
-      // iOS cần xin permission
       try{
+        // iOS cần xin permission; Android thường không cần
         if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
           const res = await DeviceMotionEvent.requestPermission();
           if (res !== 'granted') { alert("Cần cấp quyền cảm biến để lắc!"); return; }
@@ -140,7 +439,9 @@
         setUI();
       }catch(e){
         console.error(e);
-        alert("Không bật được cảm biến. Bạn vẫn có thể bấm để gieo.");
+        // nếu không bật được cảm biến vẫn cho bấm gieo
+        hasSensor = false;
+        setUI();
       }
     }
 
@@ -158,7 +459,7 @@
       const speed = Math.abs(x+y+z - lastX-lastY-lastZ) / diff * 10000;
 
       if (speed > shakeThreshold) tryDraw();
-      lastX=x;lastY=y;lastZ=z;
+      lastX=x; lastY=y; lastZ=z;
     }
 
     function tryDraw(){
@@ -172,10 +473,10 @@
     function draw(){
       isAnimating = true;
       setUI();
-      if (navigator.vibrate) navigator.vibrate(120);
+      if (navigator.vibrate) navigator.vibrate(150);
 
       tube.classList.add('shake');
-      startBtn.textContent = "Đang gieo quẻ...";
+      startBtn.textContent = "Đang gieo...";
 
       setTimeout(()=>{
         tube.classList.remove('shake');
@@ -183,45 +484,56 @@
       }, 1200);
     }
 
+    function pad2(n){ return n < 10 ? `0${n}` : String(n); }
+
     function showResult(){
       canDraw = false;
 
-      const id = Math.floor(Math.random()*60)+1;
-      const fortune = fortunes[Math.floor(Math.random()*fortunes.length)];
+      const picked = fortunes[Math.floor(Math.random() * fortunes.length)];
 
-      resultStick.style.display='flex';
-      resultStick.textContent = (id<10?`0${id}`:String(id));
+      // hiện que rơi
+      resultStick.style.display = 'flex';
+      resultStick.innerHTML = `<span>QUẺ ${pad2(picked.no)}</span>`;
+
+      if (navigator.vibrate) navigator.vibrate([80,50,80]);
 
       setTimeout(()=>{
-        document.getElementById('mTitle').textContent = fortune.title;
-        document.getElementById('mNum').textContent = (id<10?`0${id}`:String(id));
-        document.getElementById('mText').textContent = fortune.text;
+        // show modal
+        document.getElementById('mBadge').textContent = `QUẺ SỐ ${pad2(picked.no)}`;
+        document.getElementById('mNum').textContent = pad2(picked.no);
+        document.getElementById('mRank').textContent = picked.rank;
+        document.getElementById('mText').textContent = picked.text;
 
-        resultStick.style.display='none';
+        resultStick.style.display = 'none';
         modal.classList.add('show');
 
         isAnimating = false;
         setUI();
-      }, 450);
+      }, 520);
     }
 
     function reset(){
       modal.classList.remove('show');
       canDraw = true;
       isAnimating = false;
-      lastShakeAt = Date.now();
+      lastShakeAt = Date.now(); // tránh vừa bấm xong lắc phát lại ra ngay
       setUI();
     }
 
+    // ===== Nút =====
     startBtn.addEventListener('click', async ()=>{
       if (!hasSensor) await enableSensor();
-      // Sau khi bật cảm biến, người dùng lắc để gieo.
-      // Nếu muốn bấm là gieo luôn, bỏ comment dòng dưới:
-      // tryDraw();
+      // Nếu bạn muốn bấm là gieo luôn (không cần lắc), bỏ comment dòng dưới:
+      tryDraw();
     });
 
     againBtn.addEventListener('click', reset);
     document.getElementById('modalAgain').addEventListener('click', reset);
+
+    // chạm ngoài modal để đóng (tuỳ thích)
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal) reset();
+    });
 
     setUI();
   </script>
